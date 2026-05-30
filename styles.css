@@ -1,0 +1,465 @@
+/* ========================
+   IMPORTS & VARIABLES
+======================== */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+:root {
+  --bg:           #080808;
+  --surface:      #0f0f0f;
+  --surface-2:    #161616;
+  --border:       #222222;
+  --border-soft:  #1a1a1a;
+  --red:          #e02020;
+  --red-glow:     rgba(224, 32, 32, 0.15);
+  --red-dim:      rgba(224, 32, 32, 0.08);
+  --text:         #f0f0f0;
+  --text-muted:   #666;
+  --text-soft:    #999;
+  --radius-sm:    6px;
+  --radius:       12px;
+  --radius-lg:    16px;
+  --transition:   0.18s ease;
+}
+
+/* ========================
+   RESET & BASE
+======================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ========================
+   HEADER
+======================== */
+.header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0 32px;
+}
+
+.header-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  font-size: 1.4rem;
+  color: var(--red);
+  line-height: 1;
+}
+
+.brand-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.brand-accent {
+  color: var(--red);
+}
+
+.header-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  border-left: 1px solid var(--border);
+  padding-left: 24px;
+}
+
+/* ========================
+   LAYOUT
+======================== */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+.col-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sticky-panel {
+  position: sticky;
+  top: 24px;
+}
+
+/* ========================
+   CARDS
+======================== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--surface-2);
+}
+
+.card-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.card-header h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ========================
+   FIELDS
+======================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.field-unit {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ========================
+   INPUTS
+======================== */
+input[type="number"],
+input[type="text"] {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  width: 100%;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  border-color: var(--red);
+  background: #111;
+  box-shadow: 0 0 0 3px var(--red-glow);
+}
+
+input::placeholder {
+  color: #2e2e2e;
+}
+
+/* ========================
+   FILAMENTO
+======================== */
+.filamento-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.filamento-head {
+  display: grid;
+  grid-template-columns: 62px 1fr 1fr;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.filamento-head span {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.filamento-row {
+  display: grid;
+  grid-template-columns: 62px 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.filamento-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.filamento-grid input {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+/* ========================
+   MULTIPLICADOR REFS
+======================== */
+.mult-refs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--red-dim);
+  border: 1px solid rgba(224, 32, 32, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+}
+
+.mult-ref {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.mult-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  color: var(--red);
+  letter-spacing: 0.05em;
+}
+
+.mult-name {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mult-sep {
+  color: var(--border);
+  font-size: 1.2rem;
+}
+
+/* ========================
+   PANEL DE RESULTADOS
+======================== */
+.results-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--surface-2);
+}
+
+.results-header h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.results-body {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+}
+
+.result-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.result-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-soft);
+  transition: color var(--transition);
+}
+
+.result-divider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: 6px 0;
+}
+
+/* Costo total */
+.result-costo .result-label {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.result-costo .result-val {
+  color: var(--text);
+  font-size: 16px;
+}
+
+/* Precio de venta — bloque destacado */
+.result-venta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--red-dim);
+  border: 1px solid rgba(224, 32, 32, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin-top: 12px;
+}
+
+.venta-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.venta-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  color: var(--red);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  transition: color var(--transition);
+}
+
+/* Flash de actualización */
+@keyframes flash {
+  0%   { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.flash { animation: flash 0.2s ease; }
+
+/* ========================
+   RESPONSIVE
+======================== */
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 60px;
+  }
+
+  .sticky-panel { position: static; }
+
+  .fields-row { grid-template-columns: 1fr; }
+
+  .header-sub { display: none; }
+}

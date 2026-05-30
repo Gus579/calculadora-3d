@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Costos 3D</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- ======================== -->
+    <!--         HEADER           -->
+    <!-- ======================== -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="header-brand">
+          <span class="brand-icon">⬡</span>
+          <span class="brand-name">Print<span class="brand-accent">Calc</span></span>
+        </div>
+        <p class="header-sub">Calculá el costo real de tus impresiones y el precio de venta</p>
+      </div>
+    </header>
+
+    <!-- ======================== -->
+    <!--         LAYOUT           -->
+    <!-- ======================== -->
+    <main class="layout">
+
+      <!-- COLUMNA IZQUIERDA -->
+      <div class="col-inputs">
+
+        <!-- GASTOS FIJOS -->
+        <section class="card">
+          <div class="card-header">
+            <span class="card-icon">⚙️</span>
+            <div>
+              <h2>Gastos Fijos</h2>
+              <p class="card-desc">Configurá una vez, aplica a todas las piezas</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+
+            <div class="field-group">
+              <div class="field-label-row">
+                <label>Precio del filamento</label>
+                <span class="field-unit">$/kg · hasta 4 colores</span>
+              </div>
+              <div class="filamento-grid">
+                <div class="filamento-head">
+                  <span></span>
+                  <span>Precio ($/kg)</span>
+                  <span>Gramos usados</span>
+                </div>
+                <div class="filamento-row">
+                  <span class="filamento-label">Color 1</span>
+                  <input type="text" id="precio-filamento-1" placeholder="0" inputmode="numeric" />
+                  <input type="number" id="gramos-filamento-1" placeholder="0" min="0" />
+                </div>
+                <div class="filamento-row">
+                  <span class="filamento-label">Color 2</span>
+                  <input type="text" id="precio-filamento-2" placeholder="0" inputmode="numeric" />
+                  <input type="number" id="gramos-filamento-2" placeholder="0" min="0" />
+                </div>
+                <div class="filamento-row">
+                  <span class="filamento-label">Color 3</span>
+                  <input type="text" id="precio-filamento-3" placeholder="0" inputmode="numeric" />
+                  <input type="number" id="gramos-filamento-3" placeholder="0" min="0" />
+                </div>
+                <div class="filamento-row">
+                  <span class="filamento-label">Color 4</span>
+                  <input type="text" id="precio-filamento-4" placeholder="0" inputmode="numeric" />
+                  <input type="number" id="gramos-filamento-4" placeholder="0" min="0" />
+                </div>
+              </div>
+            </div>
+
+            <div class="fields-row">
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="precio-kwh">Precio kWh</label>
+                  <span class="field-unit">$</span>
+                </div>
+                <div class="input-wrap">
+                  <input type="number" id="precio-kwh" value="165" min="0" step="0.01" />
+                  <span class="input-hint">≈ tarifa residencial mayo 2026</span>
+                </div>
+              </div>
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="consumo-impresora">Consumo impresora</label>
+                  <span class="field-unit">W</span>
+                </div>
+                <div class="input-wrap">
+                  <input type="number" id="consumo-impresora" value="170" min="0" />
+                  <span class="input-hint">Bambu Lab A1 ≈ 170W</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="fields-row">
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="vida-util">Vida útil</label>
+                  <span class="field-unit">horas</span>
+                </div>
+                <input type="number" id="vida-util" value="10000" min="1" />
+              </div>
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="costo-repuestos">Costo repuestos</label>
+                  <span class="field-unit">$</span>
+                </div>
+                <input type="number" id="costo-repuestos" value="250000" min="0" />
+              </div>
+            </div>
+
+            <div class="fields-row">
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="margen-error">Margen de error</label>
+                  <span class="field-unit">%</span>
+                </div>
+                <input type="number" id="margen-error" value="5" min="0" max="100" />
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- DATOS DE LA PIEZA -->
+        <section class="card">
+          <div class="card-header">
+            <span class="card-icon">🧩</span>
+            <div>
+              <h2>Datos de la Pieza</h2>
+              <p class="card-desc">Completá para cada trabajo nuevo</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="fields-row">
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="horas-impresion">Horas de impresión</label>
+                  <span class="field-unit">h</span>
+                </div>
+                <input type="number" id="horas-impresion" placeholder="0" min="0" />
+              </div>
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="minutos-adicionales">Minutos adicionales</label>
+                  <span class="field-unit">min</span>
+                </div>
+                <input type="number" id="minutos-adicionales" placeholder="0" min="0" />
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-label-row">
+                <label for="insumo-extra">Insumo extra</label>
+                <span class="field-unit">$</span>
+              </div>
+              <input type="number" id="insumo-extra" placeholder="0" min="0" />
+            </div>
+          </div>
+        </section>
+
+        <!-- GANANCIA -->
+        <section class="card">
+          <div class="card-header">
+            <span class="card-icon">💰</span>
+            <div>
+              <h2>Ganancia</h2>
+              <p class="card-desc">Multiplicador sobre el costo total</p>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="field">
+              <div class="field-label-row">
+                <label for="margen-ganancia">Multiplicador</label>
+                <span class="field-unit">×</span>
+              </div>
+              <input type="number" id="margen-ganancia" placeholder="0" min="1" step="0.1" />
+            </div>
+
+            <div class="mult-refs">
+              <div class="mult-ref">
+                <span class="mult-val">×3</span>
+                <span class="mult-name">Mayorista</span>
+              </div>
+              <div class="mult-sep">·</div>
+              <div class="mult-ref">
+                <span class="mult-val">×4</span>
+                <span class="mult-name">Minorista</span>
+              </div>
+              <div class="mult-sep">·</div>
+              <div class="mult-ref">
+                <span class="mult-val">×5</span>
+                <span class="mult-name">Llaveros</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- COLUMNA DERECHA — RESULTADOS -->
+      <div class="col-resultados">
+        <div class="results-panel sticky-panel" id="resultados">
+
+          <div class="results-header">
+            <span>📊</span>
+            <h2>Resultados</h2>
+          </div>
+
+          <div class="results-body">
+
+            <div class="result-row">
+              <span class="result-label">Filamento</span>
+              <span class="result-val" id="res-filamento">$0,00</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Electricidad</span>
+              <span class="result-val" id="res-electricidad">$0,00</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Desgaste máquina</span>
+              <span class="result-val" id="res-maquina">$0,00</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Insumo extra</span>
+              <span class="result-val" id="res-insumo">$0,00</span>
+            </div>
+
+            <div class="result-divider"></div>
+
+            <div class="result-row">
+              <span class="result-label">Subtotal</span>
+              <span class="result-val" id="res-subtotal">$0,00</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Ajuste por error</span>
+              <span class="result-val" id="res-error">$0,00</span>
+            </div>
+
+            <div class="result-divider"></div>
+
+            <div class="result-row result-costo">
+              <span class="result-label">💸 Te cuesta</span>
+              <span class="result-val" id="res-costo-total">$0,00</span>
+            </div>
+
+            <div class="result-venta">
+              <span class="venta-label">🏷️ Precio de venta</span>
+              <span class="venta-val" id="res-precio-venta">$0,00</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
