@@ -15,10 +15,15 @@ function formatPesos(numero) {
 
 function setResult(id, valor) {
   const el = document.getElementById(id);
-  el.textContent = formatPesos(valor);
-  el.classList.remove('flash');
-  void el.offsetWidth; // fuerza reflow para reiniciar animación
-  el.classList.add('flash');
+  const newValue = formatPesos(valor);
+  
+  // Solo animar si el valor cambió
+  if (el.textContent !== newValue) {
+    el.textContent = newValue;
+    el.classList.remove('flash');
+    void el.offsetWidth; // fuerza reflow para reiniciar animación
+    el.classList.add('flash');
+  }
 }
 
 // ========================
