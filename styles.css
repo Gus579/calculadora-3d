@@ -631,8 +631,8 @@ input::placeholder {
   }
 
   .filamento-row {
-    grid-template-columns: 60px 1fr;
-    gap: 8px;
+    grid-template-columns: 60px 1.5fr 1fr;
+    gap: 10px;
     align-items: center;
     padding: 12px 0;
     border-bottom: 1px solid var(--border);
@@ -761,6 +761,12 @@ input::placeholder {
   /* Filamentos en pantalla pequeña */
   .filamento-label {
     font-size: 10px;
+  }
+
+  .filamento-row {
+    grid-template-columns: 55px 1.2fr 0.8fr !important;
+    gap: 8px;
+    padding: 10px 0;
   }
 
   .filamento-grid input {
