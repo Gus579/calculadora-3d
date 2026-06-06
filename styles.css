@@ -620,35 +620,40 @@ input::placeholder {
     grid-template-columns: 1fr;
   }
 
-  /* Tabla de filamentos mejorada en móvil */
+  /* Tabla de filamentos - mantener estructura de desktop */
   .filamento-grid {
-    padding: 12px;
-    gap: 8px;
+    padding: 14px;
+    gap: 10px;
   }
 
   .filamento-head {
-    display: none;
-  }
-
-  .filamento-row {
-    grid-template-columns: 60px 1.5fr 1fr;
+    display: grid;
+    grid-template-columns: 65px 1fr 1fr;
     gap: 10px;
-    align-items: center;
-    padding: 12px 0;
+    padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
   }
 
-  .filamento-row:last-child {
-    border-bottom: none;
+  .filamento-head span {
+    font-size: 10px;
+  }
+
+  .filamento-row {
+    display: grid;
+    grid-template-columns: 65px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
   }
 
   .filamento-label {
     font-size: 11px;
+    min-width: 65px;
   }
 
   .filamento-row input {
-    padding: 10px 10px !important;
+    padding: 10px 12px !important;
     font-size: 12px !important;
+    min-width: 0;
   }
 
   .mult-refs {
@@ -759,19 +764,34 @@ input::placeholder {
   }
 
   /* Filamentos en pantalla pequeña */
+  .filamento-grid {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .filamento-head {
+    grid-template-columns: 55px 1fr 1fr;
+    gap: 8px;
+  }
+
+  .filamento-head span {
+    font-size: 9px;
+  }
+
   .filamento-label {
     font-size: 10px;
+    min-width: 55px;
   }
 
   .filamento-row {
-    grid-template-columns: 55px 1.2fr 0.8fr !important;
+    grid-template-columns: 55px 1fr 1fr;
     gap: 8px;
-    padding: 10px 0;
   }
 
   .filamento-grid input {
     padding: 8px 10px !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
+    min-width: 0;
   }
 
   .mult-refs {
