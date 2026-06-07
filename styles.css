@@ -387,6 +387,16 @@ input::placeholder {
   align-items: center;
   gap: 6px;
   flex: 1;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.mult-ref:hover {
+  transform: scale(1.08);
+}
+
+.mult-ref:active {
+  transform: scale(0.95);
 }
 
 .mult-val {

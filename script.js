@@ -86,7 +86,59 @@ function calcular() {
   setResult('res-error',        ajusteError);
   setResult('res-costo-total',  costoTotal);
   setResult('res-precio-venta', precioVenta);
+
+  guardarValores();
 }
+
+// ========================
+//   PERSISTENCIA LOCALSTORAGE
+// ========================
+
+const STORAGE_IDS = [
+  'precio-filamento-1', 'precio-filamento-2', 'precio-filamento-3', 'precio-filamento-4',
+  'gramos-filamento-1', 'gramos-filamento-2', 'gramos-filamento-3', 'gramos-filamento-4',
+  'precio-kwh', 'consumo-impresora', 'vida-util', 'costo-repuestos',
+  'margen-error', 'horas-impresion', 'minutos-adicionales', 'insumo-extra', 'margen-ganancia',
+];
+
+function guardarValores() {
+  STORAGE_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id.startsWith('precio-filamento')) {
+      localStorage.setItem(id, String(valTexto(id)));
+    } else {
+      localStorage.setItem(id, el.value);
+    }
+  });
+}
+
+function cargarValores() {
+  STORAGE_IDS.forEach(id => {
+    const saved = localStorage.getItem(id);
+    if (saved === null || saved === '') return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id.startsWith('precio-filamento')) {
+      el.value = saved;
+      formatMiles(el);
+    } else {
+      el.value = saved;
+    }
+  });
+}
+
+// ========================
+//   MULTIPLICADORES CLICKEABLES
+// ========================
+
+document.querySelectorAll('.mult-ref').forEach(el => {
+  el.addEventListener('click', function() {
+    const mult = parseFloat(this.querySelector('.mult-val').textContent.replace('×', ''));
+    document.getElementById('margen-ganancia').value = mult;
+    calcular();
+  });
+});
 
 // ========================
 //   EVENTOS — escucha todo input
@@ -130,5 +182,6 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
   input.addEventListener('input', calcular);
 });
 
-// Calcular al cargar por si hay valores pre-cargados
+// Cargar valores guardados y calcular
+cargarValores();
 calcular();
