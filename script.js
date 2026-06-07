@@ -86,7 +86,14 @@ function calcular() {
   setResult('res-error',        ajusteError);
   setResult('res-costo-total',  costoTotal);
   setResult('res-precio-venta', precioVenta);
-  setResult('res-ganancia', precioVenta - costoTotal);
+  const ganancia = precioVenta - costoTotal;
+  setResult('res-ganancia', ganancia);
+  const elGanancia = document.getElementById('res-ganancia');
+  if (ganancia < 0) {
+    elGanancia.classList.add('negative');
+  } else {
+    elGanancia.classList.remove('negative');
+  }
 
   guardarValores();
 }
