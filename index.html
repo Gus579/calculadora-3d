@@ -31,6 +31,40 @@
       <!-- COLUMNA IZQUIERDA -->
       <div class="col-inputs">
 
+        <!-- PERFILES -->
+        <section class="card">
+          <div class="card-header">
+            <span class="card-icon">💾</span>
+            <div>
+              <h2>Perfiles</h2>
+              <p class="card-desc">Guardá y cargá configuraciones completas</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="field">
+              <div class="field-label-row">
+                <label for="select-perfil">Perfiles guardados</label>
+              </div>
+              <select id="select-perfil">
+                <option value="">— Seleccionar —</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="field-label-row">
+                <label for="nombre-perfil">Nombre del perfil</label>
+              </div>
+              <input type="text" id="nombre-perfil" placeholder="Ej: PLA - Bambu A1" />
+            </div>
+            <div class="perfil-buttons">
+              <button id="btn-guardar-perfil" class="btn">💾 Guardar</button>
+              <button id="btn-eliminar-perfil" class="btn btn-danger">🗑️ Eliminar</button>
+            </div>
+            <div style="margin-top: 12px;">
+              <button id="btn-reiniciar" class="btn btn-danger btn-block">🔄 Restablecer todo</button>
+            </div>
+          </div>
+        </section>
+
         <!-- GASTOS FIJOS -->
         <section class="card">
           <div class="card-header">
@@ -257,6 +291,12 @@
             <div class="result-venta">
               <span class="venta-label">🏷️ Precio de venta</span>
               <span class="venta-val" id="res-precio-venta">$0,00</span>
+            </div>
+
+            <div class="result-divider"></div>
+            <div class="result-row">
+              <span class="result-label">📊 Ganancia</span>
+              <span class="result-val" id="res-ganancia">$0,00</span>
             </div>
 
           </div>

@@ -86,6 +86,7 @@ function calcular() {
   setResult('res-error',        ajusteError);
   setResult('res-costo-total',  costoTotal);
   setResult('res-precio-venta', precioVenta);
+  setResult('res-ganancia', precioVenta - costoTotal);
 
   guardarValores();
 }
@@ -141,6 +142,118 @@ document.querySelectorAll('.mult-ref').forEach(el => {
 });
 
 // ========================
+//   PERFILES
+// ========================
+
+function listarPerfiles() {
+  const select = document.getElementById('select-perfil');
+  if (!select) return;
+  const nombres = JSON.parse(localStorage.getItem('perfiles_nombres') || '[]');
+  select.innerHTML = '<option value="">— Seleccionar —</option>';
+  nombres.forEach(nombre => {
+    const opt = document.createElement('option');
+    opt.value = nombre;
+    opt.textContent = nombre;
+    select.appendChild(opt);
+  });
+}
+
+function guardarPerfil() {
+  const nombre = document.getElementById('nombre-perfil').value.trim();
+  if (!nombre) return;
+
+  let nombres = JSON.parse(localStorage.getItem('perfiles_nombres') || '[]');
+  if (!nombres.includes(nombre)) {
+    nombres.push(nombre);
+  }
+  localStorage.setItem('perfiles_nombres', JSON.stringify(nombres));
+
+  const valores = {};
+  STORAGE_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id.startsWith('precio-filamento')) {
+      valores[id] = String(valTexto(id));
+    } else {
+      valores[id] = el.value;
+    }
+  });
+  localStorage.setItem('perfil_' + nombre, JSON.stringify(valores));
+
+  listarPerfiles();
+  document.getElementById('select-perfil').value = nombre;
+  document.getElementById('nombre-perfil').value = '';
+}
+
+function cargarPerfil() {
+  const nombre = document.getElementById('select-perfil').value;
+  if (!nombre) return;
+
+  const valores = JSON.parse(localStorage.getItem('perfil_' + nombre));
+  if (!valores) return;
+
+  STORAGE_IDS.forEach(id => {
+    if (valores[id] === undefined) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id.startsWith('precio-filamento')) {
+      el.value = valores[id];
+      formatMiles(el);
+    } else {
+      el.value = valores[id];
+    }
+  });
+  calcular();
+}
+
+function eliminarPerfil() {
+  const nombre = document.getElementById('select-perfil').value;
+  if (!nombre) return;
+
+  let nombres = JSON.parse(localStorage.getItem('perfiles_nombres') || '[]');
+  nombres = nombres.filter(n => n !== nombre);
+  localStorage.setItem('perfiles_nombres', JSON.stringify(nombres));
+  localStorage.removeItem('perfil_' + nombre);
+
+  listarPerfiles();
+}
+
+function reiniciarTodo() {
+  const defaults = {
+    'precio-filamento-1': '',
+    'precio-filamento-2': '',
+    'precio-filamento-3': '',
+    'precio-filamento-4': '',
+    'gramos-filamento-1': '',
+    'gramos-filamento-2': '',
+    'gramos-filamento-3': '',
+    'gramos-filamento-4': '',
+    'precio-kwh': '165',
+    'consumo-impresora': '170',
+    'vida-util': '10000',
+    'costo-repuestos': '250000',
+    'margen-error': '5',
+    'horas-impresion': '',
+    'minutos-adicionales': '',
+    'insumo-extra': '',
+    'margen-ganancia': '',
+  };
+
+  STORAGE_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const val = defaults[id] !== undefined ? defaults[id] : '';
+    if (id.startsWith('precio-filamento')) {
+      el.value = val;
+      formatMiles(el);
+    } else {
+      el.value = val;
+    }
+  });
+  calcular();
+}
+
+// ========================
 //   EVENTOS — escucha todo input
 // ========================
 // ========================
@@ -182,6 +295,13 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
   input.addEventListener('input', calcular);
 });
 
-// Cargar valores guardados y calcular
+// Eventos de perfiles
+document.getElementById('btn-guardar-perfil').addEventListener('click', guardarPerfil);
+document.getElementById('btn-eliminar-perfil').addEventListener('click', eliminarPerfil);
+document.getElementById('btn-reiniciar').addEventListener('click', reiniciarTodo);
+document.getElementById('select-perfil').addEventListener('change', cargarPerfil);
+
+// Cargar valores guardados, perfiles y calcular
 cargarValores();
+listarPerfiles();
 calcular();
