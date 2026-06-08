@@ -326,6 +326,17 @@ $('select-perfil').addEventListener('change', cargarPerfil);
 
 /*
   ======================
+  PREVENT WHEEL ON NUMBER INPUTS
+  ======================
+*/
+document.querySelectorAll('input[type="number"]').forEach(input => {
+  input.addEventListener('wheel', (e) => {
+    e.preventDefault();
+  }, { passive: false });
+});
+
+/*
+  ======================
   INIT
   ======================
 */
