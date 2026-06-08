@@ -931,7 +931,7 @@ option {
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; padding: 24px 24px 60px; gap: 22px; }
   .sticky-panel { position: static; height: auto; }
-  .col-resultados { order: -1; }
+  .col-resultados { order: 1; }
 }
 
 @media (max-width: 768px) {
