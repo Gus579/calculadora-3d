@@ -606,11 +606,6 @@ select:focus {
   font-size: 18px;
 }
 
-.result-ganancia .result-val {
-  color: var(--success);
-  font-size: 16px;
-}
-
 #res-ganancia.negative {
   color: var(--danger);
 }
