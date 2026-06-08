@@ -1,7 +1,3 @@
-// ========================
-//   DOM HELPERS
-// ========================
-
 const $ = (id) => document.getElementById(id);
 
 function val(id) {
@@ -17,18 +13,20 @@ function formatPesos(n) {
 
 function setResult(id, valor) {
   const el = $(id);
+  if (!el) return;
   const nuevo = formatPesos(valor);
   if (el.textContent !== nuevo) {
     el.textContent = nuevo;
-    el.classList.remove('flash');
+    el.classList.remove('result-flash');
     void el.offsetWidth;
-    el.classList.add('flash');
+    el.classList.add('result-flash');
+    if (id === 'res-precio-venta') {
+      el.classList.remove('sale-pulse');
+      void el.offsetWidth;
+      el.classList.add('sale-pulse');
+    }
   }
 }
-
-// ========================
-//   FORMATO DE MILES
-// ========================
 
 function formatMiles(input) {
   const pos = input.selectionStart;
@@ -44,10 +42,6 @@ function precioFilamentoVal(id) {
   const raw = $(id).value.replace(/\./g, '').replace(/,/g, '.');
   return parseFloat(raw) || 0;
 }
-
-// ========================
-//   CÁLCULO PRINCIPAL
-// ========================
 
 function calcular() {
   const precioKwh      = val('precio-kwh');
@@ -94,10 +88,6 @@ function calcular() {
   guardarValores();
 }
 
-// ========================
-//   LOCALSTORAGE
-// ========================
-
 const STORAGE_IDS = [
   'precio-filamento-1', 'precio-filamento-2', 'precio-filamento-3', 'precio-filamento-4',
   'gramos-filamento-1', 'gramos-filamento-2', 'gramos-filamento-3', 'gramos-filamento-4',
@@ -116,9 +106,7 @@ function guardarValores() {
           : el.value
       );
     });
-  } catch (e) {
-    /* localStorage lleno o deshabilitado */
-  }
+  } catch (e) {}
 }
 
 function cargarValores() {
@@ -135,10 +123,6 @@ function cargarValores() {
     }
   });
 }
-
-// ========================
-//   PERFILES
-// ========================
 
 function listarPerfiles() {
   const select = $('select-perfil');
@@ -178,6 +162,11 @@ function guardarPerfil() {
   listarPerfiles();
   $('select-perfil').value = nombre;
   $('nombre-perfil').value = '';
+
+  const btn = $('btn-guardar-perfil');
+  btn.classList.remove('btn-saved');
+  void btn.offsetWidth;
+  btn.classList.add('btn-saved');
 }
 
 function cargarPerfil() {
@@ -245,10 +234,73 @@ function reiniciarTodo() {
   calcular();
 }
 
-// ========================
-//   EVENTOS
-// ========================
+/*
+  ======================
+  SPOTLIGHT EFFECT
+  ======================
+*/
+const spotlightEl = document.querySelector('[data-spotlight]');
+if (spotlightEl) {
+  spotlightEl.addEventListener('mousemove', (e) => {
+    const rect = spotlightEl.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(0);
+    const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(0);
+    spotlightEl.style.setProperty('--mouse-x', x + '%');
+    spotlightEl.style.setProperty('--mouse-y', y + '%');
+  });
+}
 
+/*
+  ======================
+  HOLD-TO-DELETE
+  ======================
+*/
+const HOLD_DURATION = 1200;
+let holdTimer = null;
+let holdActive = false;
+
+document.querySelectorAll('.hold-to-delete').forEach(btn => {
+  const indicator = btn.querySelector('.btn-hold-indicator');
+  if (!indicator) return;
+
+  const startHold = () => {
+    holdActive = true;
+    indicator.classList.add('active');
+
+    holdTimer = setTimeout(() => {
+      indicator.classList.remove('active');
+      holdActive = false;
+      eliminarPerfil();
+    }, HOLD_DURATION);
+  };
+
+  const cancelHold = () => {
+    if (holdTimer) {
+      clearTimeout(holdTimer);
+      holdTimer = null;
+    }
+    if (holdActive) {
+      indicator.classList.remove('active');
+      holdActive = false;
+    }
+  };
+
+  btn.addEventListener('mousedown', startHold);
+  btn.addEventListener('mouseup', cancelHold);
+  btn.addEventListener('mouseleave', cancelHold);
+  btn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    startHold();
+  }, { passive: false });
+  btn.addEventListener('touchend', cancelHold);
+  btn.addEventListener('touchcancel', cancelHold);
+});
+
+/*
+  ======================
+  EVENTS
+  ======================
+*/
 document.querySelectorAll('.mult-ref').forEach(el => {
   el.addEventListener('click', function () {
     const mult = parseFloat(this.querySelector('.mult-val').textContent.replace('×', ''));
@@ -269,14 +321,14 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
 });
 
 $('btn-guardar-perfil').addEventListener('click', guardarPerfil);
-$('btn-eliminar-perfil').addEventListener('click', eliminarPerfil);
 $('btn-reiniciar').addEventListener('click', reiniciarTodo);
 $('select-perfil').addEventListener('change', cargarPerfil);
 
-// ========================
-//   INIT
-// ========================
-
+/*
+  ======================
+  INIT
+  ======================
+*/
 cargarValores();
 listarPerfiles();
 calcular();
