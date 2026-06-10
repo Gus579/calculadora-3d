@@ -53,6 +53,7 @@ function calcular() {
   const minExtra       = val('minutos-adicionales');
   const insumoExtra    = val('insumo-extra');
   const mult           = val('margen-ganancia');
+  const comisionPct    = val('comision-venta');
 
   const tiempoTotal = horas + minExtra / 60;
 
@@ -71,7 +72,9 @@ function calcular() {
   const ajusteError = subtotal * (margenError / 100);
   const costoTotal  = subtotal + ajusteError;
   const precioVenta = mult > 0 ? costoTotal * mult : 0;
-  const ganancia    = precioVenta - costoTotal;
+  const comision    = precioVenta * (comisionPct / 100);
+  const precioFinal = precioVenta - comision;
+  const ganancia    = precioFinal - costoTotal;
 
   setResult('res-filamento',    costoFilamento);
   setResult('res-electricidad', electricidad);
@@ -81,6 +84,7 @@ function calcular() {
   setResult('res-error',        ajusteError);
   setResult('res-costo-total',  costoTotal);
   setResult('res-precio-venta', precioVenta);
+  setResult('res-comision',     comision);
   setResult('res-ganancia',     ganancia);
 
   $('res-ganancia').classList.toggle('negative', ganancia < 0);
@@ -92,7 +96,7 @@ const STORAGE_IDS = [
   'precio-filamento-1', 'precio-filamento-2', 'precio-filamento-3', 'precio-filamento-4',
   'gramos-filamento-1', 'gramos-filamento-2', 'gramos-filamento-3', 'gramos-filamento-4',
   'precio-kwh', 'consumo-impresora', 'vida-util', 'costo-repuestos',
-  'margen-error', 'horas-impresion', 'minutos-adicionales', 'insumo-extra', 'margen-ganancia',
+  'margen-error', 'horas-impresion', 'minutos-adicionales', 'insumo-extra', 'margen-ganancia', 'comision-venta',
 ];
 
 function guardarValores() {
@@ -218,6 +222,7 @@ function reiniciarTodo() {
     'minutos-adicionales': '',
     'insumo-extra': '',
     'margen-ganancia': '',
+    'comision-venta': '10',
   };
 
   STORAGE_IDS.forEach(id => {

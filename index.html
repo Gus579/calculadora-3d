@@ -244,6 +244,14 @@
                   <span class="mult-name">Llaveros</span>
                 </div>
               </div>
+
+              <div class="field">
+                <div class="field-label-row">
+                  <label for="comision-venta">Comisión de venta</label>
+                  <span class="field-unit">%</span>
+                </div>
+                <input type="number" id="comision-venta" value="10" min="0" max="100" step="0.5" />
+              </div>
             </div>
           </div>
         </section>
@@ -301,9 +309,14 @@
               <span class="venta-val" id="res-precio-venta">$0,00</span>
             </div>
 
+            <div class="result-row">
+              <span class="result-label">Comisión</span>
+              <span class="result-val" id="res-comision">$0,00</span>
+            </div>
+
             <div class="result-divider"></div>
             <div class="result-row">
-              <span class="result-label">📊 Ganancia</span>
+              <span class="result-label">📊 Ganancia neta</span>
               <span class="result-val" id="res-ganancia">$0,00</span>
             </div>
 
