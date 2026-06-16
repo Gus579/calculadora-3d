@@ -342,6 +342,119 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
 
 /*
   ======================
+  MULTIPLES PLACAS
+  ======================
+*/
+let plateIdCounter = 0;
+let plates = [];
+
+function createPlate() {
+  return { id: plateIdCounter++, hours: 0, minutes: 0, grams: [0, 0, 0, 0] };
+}
+
+function getPlateTotals() {
+  let totalHours = 0, totalMinutes = 0, totalGrams = [0, 0, 0, 0];
+  plates.forEach(p => {
+    totalHours += p.hours;
+    totalMinutes += p.minutes;
+    for (let i = 0; i < 4; i++) totalGrams[i] += p.grams[i];
+  });
+  return { totalHours, totalMinutes, totalGrams };
+}
+
+function updatePlatesTotals() {
+  const { totalHours, totalMinutes, totalGrams } = getPlateTotals();
+  const gramsStr = totalGrams.map((g, i) => `C${i + 1}: ${g}g`).join(' · ');
+  $('plates-totals-text').textContent = `${totalHours}h ${totalMinutes}min · ${gramsStr}`;
+}
+
+function renderPlates() {
+  const container = $('plates-container');
+  container.innerHTML = '';
+  plates.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'plate-row';
+    div.dataset.plateId = p.id;
+
+    div.innerHTML = `
+      <div class="plate-header">
+        <span class="plate-name">Placa ${plates.indexOf(p) + 1}</span>
+        <button class="plate-remove" aria-label="Eliminar placa">✕</button>
+      </div>
+      <div class="plate-fields">
+        <div class="plate-field">
+          <label>Horas</label>
+          <input type="number" class="plate-hours" value="${p.hours || ''}" placeholder="0" min="0" />
+        </div>
+        <div class="plate-field">
+          <label>Min</label>
+          <input type="number" class="plate-minutes" value="${p.minutes || ''}" placeholder="0" min="0" />
+        </div>
+      </div>
+      <div class="plate-grams">
+        <span class="plate-grams-label">Filamento:</span>
+        <div class="plate-gram-grid">
+          ${[0, 1, 2, 3].map(i => `
+            <span class="plate-gram-color">C${i + 1}</span>
+            <input type="number" class="plate-gram" data-color="${i}" value="${p.grams[i] || ''}" placeholder="0" min="0" />
+          `).join('')}
+          <span class="plate-gram-unit">g</span>
+        </div>
+      </div>
+    `;
+
+    const removeBtn = div.querySelector('.plate-remove');
+    removeBtn.addEventListener('click', () => removePlate(p.id));
+
+    div.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => {
+        const idx = plates.findIndex(x => x.id === p.id);
+        if (idx === -1) return;
+        plates[idx].hours = parseFloat(div.querySelector('.plate-hours').value) || 0;
+        plates[idx].minutes = parseFloat(div.querySelector('.plate-minutes').value) || 0;
+        div.querySelectorAll('.plate-gram').forEach(g => {
+          const ci = parseInt(g.dataset.color);
+          plates[idx].grams[ci] = parseFloat(g.value) || 0;
+        });
+        updatePlatesTotals();
+      });
+    });
+
+    container.appendChild(div);
+  });
+  updatePlatesTotals();
+}
+
+function addPlate() {
+  plates.push(createPlate());
+  renderPlates();
+}
+
+function removePlate(id) {
+  plates = plates.filter(p => p.id !== id);
+  if (plates.length === 0) plates.push(createPlate());
+  renderPlates();
+}
+
+function aplicarPlacas() {
+  const { totalHours, totalMinutes, totalGrams } = getPlateTotals();
+  $('horas-impresion').value = totalHours || '';
+  $('minutos-adicionales').value = totalMinutes || '';
+  for (let i = 0; i < 4; i++) {
+    const el = $(`gramos-filamento-${i + 1}`);
+    if (el) el.value = totalGrams[i] || '';
+  }
+  calcular();
+}
+
+$('btn-agregar-placa').addEventListener('click', addPlate);
+$('btn-aplicar-placas').addEventListener('click', aplicarPlacas);
+
+plates.push(createPlate());
+renderPlates();
+
+/*
+  ======================
   INIT
   ======================
 */
